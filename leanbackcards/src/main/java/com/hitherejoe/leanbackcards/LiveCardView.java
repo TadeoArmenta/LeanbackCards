@@ -16,16 +16,20 @@ import androidx.leanback.widget.BaseCardView;
 
 import com.hitherejoe.leanbackcards.widget.PreviewCardView;
 
+
+import okhttp3.Interceptor;
+
 public class LiveCardView extends BaseCardView {
 
     private PreviewCardView mPreviewCard;
+    private Interceptor mInterceptor;
 
     private TextView mTitleView;
     private TextView mContentView;
     private boolean mAttachedToWindow;
 
     public LiveCardView(Context context) {
-        this(context, null);
+        super(context, null);
     }
 
     public LiveCardView(Context context, AttributeSet attrs) {
@@ -70,7 +74,7 @@ public class LiveCardView extends BaseCardView {
 
         Context context = getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.view_live_card, this);
+        View view = inflater.inflate(R.layout.view_live_card, this) ;
 
         mPreviewCard = view.findViewById(R.id.layout_preview_card);
         mTitleView = findViewById(R.id.title_text);
@@ -123,9 +127,13 @@ public class LiveCardView extends BaseCardView {
     public void setVideoUrl(String url) {
         mPreviewCard.setVideoUrl(url);
     }
+    public void setVideoUrl(String url, Interceptor i) {
 
+        mPreviewCard.setVideoUrl(url);
+        mInterceptor = i;
+    }
     public void startVideo() {
-        mPreviewCard.setLoading();
+        mPreviewCard.setLoading(mInterceptor);
     }
 
     public void setVideoViewSize(int width, int height) {

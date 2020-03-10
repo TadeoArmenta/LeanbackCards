@@ -10,6 +10,10 @@ import android.widget.ProgressBar;
 
 import com.hitherejoe.leanbackcards.R;
 
+import java.util.Map;
+
+import okhttp3.Interceptor;
+
 public class PreviewCardView extends FrameLayout {
 
     private FrameLayout mMainContainer;
@@ -18,34 +22,39 @@ public class PreviewCardView extends FrameLayout {
     private View mOverlayView;
     private ProgressBar mProgressCard;
     private String mVideoUrl;
+    private Context mContext;
 
     public PreviewCardView(Context context) {
         super(context);
+        mContext = context;
         init();
     }
 
     public PreviewCardView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mContext = context;
         init();
     }
 
     public PreviewCardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mContext = context;
         init();
     }
 
     public PreviewCardView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        mContext = context;
         init();
     }
 
     private void init() {
         View view = inflate(getContext(), R.layout.widget_preview_card, this);
-        mMainContainer = (FrameLayout) view.findViewById(R.id.main_container);
-        mVideoView = (LoopingVideoView) view.findViewById(R.id.main_video);
-        mImageView = (ImageView) view.findViewById(R.id.main_image);
+        mMainContainer = view.findViewById(R.id.main_container);
+        mVideoView = view.findViewById(R.id.main_video);
+        mImageView =  view.findViewById(R.id.main_image);
         mOverlayView = view.findViewById(R.id.view_overlay);
-        mProgressCard = (ProgressBar) view.findViewById(R.id.progress_card);
+        mProgressCard = view.findViewById(R.id.progress_card);
     }
 
     public void setVideoUrl(String videoUrl) {
@@ -60,11 +69,12 @@ public class PreviewCardView extends FrameLayout {
         return mImageView;
     }
 
-    public void setLoading() {
+    public void setLoading(Interceptor i) {
         mOverlayView.setVisibility(View.VISIBLE);
         mProgressCard.setVisibility(View.VISIBLE);
         mVideoView.setVisibility(View.VISIBLE);
-        mVideoView.setupMediaPlayer(mVideoUrl, new LoopingVideoView.OnVideoReadyListener() {
+
+        mVideoView.setupMediaPlayer(mVideoUrl,i ,new LoopingVideoView.OnVideoReadyListener() {
             @Override
             public void onVideoReady() {
                 mOverlayView.setVisibility(View.INVISIBLE);

@@ -98,7 +98,7 @@ public class MainFragment extends BrowseSupportFragment {
         post.description = "Just a video!";
         post.thumbnail = R.drawable.hitherejoe;
         post.videoUrl =
-                "http://techslides.com/demos/sample-videos/small.mp4";
+                "https://live.bongotv.mx/live/fubo.amc/playlist.m3u8";
         mVideoCardAdapter.addOption(post);
         HeaderItem gridLiveCardHeader =
                 new HeaderItem(mRowsAdapter.size(), getString(R.string.header_text_live_card));

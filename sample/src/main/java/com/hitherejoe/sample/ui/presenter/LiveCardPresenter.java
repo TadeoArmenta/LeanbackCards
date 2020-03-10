@@ -1,7 +1,11 @@
 package com.hitherejoe.sample.ui.presenter;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.provider.Settings;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -13,6 +17,9 @@ import com.hitherejoe.leanbackcards.LiveCardView;
 import com.hitherejoe.sample.R;
 import com.hitherejoe.sample.ui.activity.MainActivity;
 import com.hitherejoe.sample.ui.data.model.Post;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LiveCardPresenter extends Presenter {
 
@@ -91,7 +98,10 @@ public class LiveCardPresenter extends Presenter {
             cardView.setMainContainerDimensions(CARD_WIDTH, CARD_HEIGHT);
             int size = (int) (CARD_WIDTH * 1.25);
             cardView.setVideoViewSize(size, size);
-            cardView.setVideoUrl(post.videoUrl);
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("deviceid", Settings.Secure.getString(viewHolder.view.getContext().getContentResolver(), Settings.Secure.ANDROID_ID));
+            map.put("User-Agent",getUserAgent(viewHolder.view.getContext(),"elbrazodealbanil("+Settings.Secure.getString(viewHolder.view.getContext().getContentResolver(), Settings.Secure.ANDROID_ID)+")"));
+            cardView.setVideoUrl(post.videoUrl,map);
 
             Glide.with(cardView.getContext())
                     .load(post.thumbnail)
@@ -103,4 +113,16 @@ public class LiveCardPresenter extends Presenter {
 
     @Override
     public void onUnbindViewHolder(Presenter.ViewHolder viewHolder) { }
+    public static String getUserAgent(Context context, String applicationName) {
+        String versionName;
+        try {
+            String packageName = context.getPackageName();
+            PackageInfo info = context.getPackageManager().getPackageInfo(packageName, 0);
+            versionName = info.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            versionName = "?";
+        }
+        return applicationName + "/3.0.0-RC (Linux;Android " + Build.VERSION.RELEASE
+                + ") ";
+    }
 }

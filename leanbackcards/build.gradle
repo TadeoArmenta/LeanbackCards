@@ -17,11 +17,27 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
 }
 
 dependencies {
+    def exoVersion      = "2.11.3"
+    def okHttpVersion   = "4.4.0"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "androidx.leanback:leanback:1.0.0"
+    implementation "com.google.android.exoplayer:exoplayer-core:$exoVersion"
+    implementation "com.google.android.exoplayer:exoplayer-ui:$exoVersion"
+    implementation "com.google.android.exoplayer:exoplayer-hls:$exoVersion"
+    implementation "com.google.android.exoplayer:exoplayer-dash:$exoVersion"
+    implementation "com.google.android.exoplayer:extension-leanback:$exoVersion"
+    implementation "com.google.android.exoplayer:extension-okhttp:$exoVersion"
+    implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:$okHttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
