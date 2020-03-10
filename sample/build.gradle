@@ -21,7 +21,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation "androidx.leanback:leanback:1.0.0"
     implementation project(':leanbackcards')
