@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:lb="http://schemas.android.com/apk/res-auto">
+    xmlns:lb="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
+    app:ignore="NamespaceTypo">
 
     <com.hitherejoe.leanbackcards.widget.PreviewCardView
         android:id="@+id/layout_preview_card"
+        app:use_controller="false"
+        app:repeat_toggle_modes="none"
+        app:show_timeout="45000"
+        app:resize_mode="fixed_height"
+        app:surface_type="texture_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        lb:layout_viewType="main" />
+         />
 
     <androidx.leanback.widget.NonOverlappingLinearLayout
         android:layout_width="match_parent"

@@ -12,6 +12,8 @@ import com.hitherejoe.leanbackcards.R;
 
 import java.util.Map;
 
+import okhttp3.Interceptor;
+
 public class PreviewCardView extends FrameLayout {
 
     private FrameLayout mMainContainer;
@@ -20,25 +22,29 @@ public class PreviewCardView extends FrameLayout {
     private View mOverlayView;
     private ProgressBar mProgressCard;
     private String mVideoUrl;
-    private Map<String,String> mHeaders;
+    private Context mContext;
 
     public PreviewCardView(Context context) {
         super(context);
+        mContext = context;
         init();
     }
 
     public PreviewCardView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mContext = context;
         init();
     }
 
     public PreviewCardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mContext = context;
         init();
     }
 
     public PreviewCardView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        mContext = context;
         init();
     }
 
@@ -54,10 +60,6 @@ public class PreviewCardView extends FrameLayout {
     public void setVideoUrl(String videoUrl) {
         mVideoUrl = videoUrl;
     }
-    public void setVideoUrl(String videoUrl, Map<String,String> headers) {
-        mVideoUrl = videoUrl;
-        mHeaders = headers;
-    }
 
     public void setVideoViewSize(int width, int height) {
         mVideoView.setLayoutParams(new LayoutParams(width, height));
@@ -67,39 +69,24 @@ public class PreviewCardView extends FrameLayout {
         return mImageView;
     }
 
-    public void setLoading() {
+    public void setLoading(Interceptor i) {
         mOverlayView.setVisibility(View.VISIBLE);
         mProgressCard.setVisibility(View.VISIBLE);
         mVideoView.setVisibility(View.VISIBLE);
-        if (mHeaders == null) {
-            mVideoView.setupMediaPlayer(mVideoUrl, new LoopingVideoView.OnVideoReadyListener() {
-                @Override
-                public void onVideoReady() {
-                    mOverlayView.setVisibility(View.INVISIBLE);
-                    mProgressCard.setVisibility(View.INVISIBLE);
-                    mImageView.setVisibility(View.INVISIBLE);
-                }
 
-                @Override
-                public void onVideoError() {
-                    setNotPlayingViewState();
-                }
-            });
-        }else{
-            mVideoView.setupMediaPlayer(mVideoUrl,mHeaders, new LoopingVideoView.OnVideoReadyListener() {
-                @Override
-                public void onVideoReady() {
-                    mOverlayView.setVisibility(View.INVISIBLE);
-                    mProgressCard.setVisibility(View.INVISIBLE);
-                    mImageView.setVisibility(View.INVISIBLE);
-                }
+        mVideoView.setupMediaPlayer(mVideoUrl,i ,new LoopingVideoView.OnVideoReadyListener() {
+            @Override
+            public void onVideoReady() {
+                mOverlayView.setVisibility(View.INVISIBLE);
+                mProgressCard.setVisibility(View.INVISIBLE);
+                mImageView.setVisibility(View.INVISIBLE);
+            }
 
-                @Override
-                public void onVideoError() {
-                    setNotPlayingViewState();
-                }
-            });
-        }
+            @Override
+            public void onVideoError() {
+                setNotPlayingViewState();
+            }
+        });
     }
 
     public void setFinished() {
