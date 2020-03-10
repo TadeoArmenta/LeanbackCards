@@ -16,6 +16,8 @@ import androidx.leanback.widget.BaseCardView;
 
 import com.hitherejoe.leanbackcards.widget.PreviewCardView;
 
+import java.util.Map;
+
 public class LiveCardView extends BaseCardView {
 
     private PreviewCardView mPreviewCard;
@@ -122,6 +124,9 @@ public class LiveCardView extends BaseCardView {
 
     public void setVideoUrl(String url) {
         mPreviewCard.setVideoUrl(url);
+    }
+    public void setVideoUrl(String url, Map<String,String> headers) {
+        mPreviewCard.setVideoUrl(url,headers);
     }
 
     public void startVideo() {
