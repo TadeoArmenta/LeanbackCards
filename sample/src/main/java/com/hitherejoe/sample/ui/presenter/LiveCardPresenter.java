@@ -41,7 +41,7 @@ public class LiveCardPresenter extends Presenter {
         sSelectedBackgroundColor = ContextCompat.getColor(context, R.color.primary_dark);
         mDefaultCardImage = ContextCompat.getDrawable(context, R.drawable.ic_play);
 
-        final LiveCardView cardView = new LiveCardView(parent.getContext()) {
+        final LiveCardView cardView = new LiveCardView(context,null) {
             @Override
             public void setSelected(boolean selected) {
                 updateCardBackgroundColor(this, selected);
@@ -49,26 +49,18 @@ public class LiveCardPresenter extends Presenter {
             }
         };
 
-        cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cardView.stopVideo();
-            }
-        });
+        cardView.setOnClickListener(v -> cardView.stopVideo());
 
-        cardView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    cardView.startVideo();
-                } else {
-                    if (mContext instanceof MainActivity) {
-                        if (((MainActivity) mContext).isFragmentActive()) {
-                            cardView.stopVideo();
-                        }
-                    } else {
+        cardView.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                cardView.startVideo();
+            } else {
+                if (mContext instanceof MainActivity) {
+                    if (((MainActivity) mContext).isFragmentActive()) {
                         cardView.stopVideo();
                     }
+                } else {
+                    cardView.stopVideo();
                 }
             }
         });
@@ -98,10 +90,7 @@ public class LiveCardPresenter extends Presenter {
             cardView.setMainContainerDimensions(CARD_WIDTH, CARD_HEIGHT);
             int size = (int) (CARD_WIDTH * 1.25);
             cardView.setVideoViewSize(size, size);
-            Map<String, String> map = new HashMap<String, String>();
-            map.put("deviceid", Settings.Secure.getString(viewHolder.view.getContext().getContentResolver(), Settings.Secure.ANDROID_ID));
-            map.put("User-Agent",getUserAgent(viewHolder.view.getContext(),"elbrazodealbanil("+Settings.Secure.getString(viewHolder.view.getContext().getContentResolver(), Settings.Secure.ANDROID_ID)+")"));
-            cardView.setVideoUrl(post.videoUrl,map);
+            cardView.setVideoUrl(post.videoUrl);
 
             Glide.with(cardView.getContext())
                     .load(post.thumbnail)
@@ -113,16 +102,4 @@ public class LiveCardPresenter extends Presenter {
 
     @Override
     public void onUnbindViewHolder(Presenter.ViewHolder viewHolder) { }
-    public static String getUserAgent(Context context, String applicationName) {
-        String versionName;
-        try {
-            String packageName = context.getPackageName();
-            PackageInfo info = context.getPackageManager().getPackageInfo(packageName, 0);
-            versionName = info.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            versionName = "?";
-        }
-        return applicationName + "/3.0.0-RC (Linux;Android " + Build.VERSION.RELEASE
-                + ") ";
-    }
 }

@@ -98,7 +98,7 @@ public class MainFragment extends BrowseSupportFragment {
         post.description = "Just a video!";
         post.thumbnail = R.drawable.hitherejoe;
         post.videoUrl =
-                "https://live.bongotv.mx/live/fubo.amc/playlist.m3u8";
+                "https://commondatastorage.googleapis.com/android-tv/Sample%20videos/Zeitgeist/Zeitgeist%202010_%20Year%20in%20Review.mp4";
         mVideoCardAdapter.addOption(post);
         HeaderItem gridLiveCardHeader =
                 new HeaderItem(mRowsAdapter.size(), getString(R.string.header_text_live_card));
