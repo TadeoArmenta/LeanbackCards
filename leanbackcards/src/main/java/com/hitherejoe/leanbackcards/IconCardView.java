@@ -3,19 +3,19 @@ package com.hitherejoe.leanbackcards;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorInt;
-import android.support.annotation.DrawableRes;
-import android.support.v17.leanback.widget.BaseCardView;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
+import androidx.core.content.ContextCompat;
+import androidx.leanback.widget.BaseCardView;
 
 public class IconCardView extends BaseCardView {
 
@@ -75,11 +75,11 @@ public class IconCardView extends BaseCardView {
         int drawableResource =
                 cardAttrs.getInt(R.styleable.IconCardView_icon_header_icon, R.drawable.ic_error);
 
-        mLayout = (RelativeLayout) findViewById(R.id.layout_option_card);
-        mDetail = (LinearLayout) findViewById(R.id.layout_detail);
-        mIcon = (ImageView) findViewById(R.id.image_option);
-        mTitle = (TextView) findViewById(R.id.text_option_title);
-        mValue = (TextView) findViewById(R.id.text_option_value);
+        mLayout = findViewById(R.id.layout_option_card);
+        mDetail = findViewById(R.id.layout_detail);
+        mIcon = findViewById(R.id.image_option);
+        mTitle = findViewById(R.id.text_option_title);
+        mValue = findViewById(R.id.text_option_value);
 
         setCardBackgroundColor(headerBackgroundColor);
         setDetailBackgroundColor(detailBackgroundColor);
@@ -97,7 +97,7 @@ public class IconCardView extends BaseCardView {
         mLayout.setLayoutParams(lp);
     }
 
-    public void setIcon(@DrawableRes Drawable drawable) {
+    public void setIcon( Drawable drawable) {
         mIcon.setImageDrawable(drawable);
     }
 

@@ -2,16 +2,16 @@ package com.hitherejoe.leanbackcards;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.annotation.ColorInt;
-import android.support.annotation.DrawableRes;
-import android.support.v17.leanback.widget.BaseCardView;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
+import androidx.core.content.ContextCompat;
+import androidx.leanback.widget.BaseCardView;
 
 public class TagCardView extends BaseCardView {
 
@@ -62,8 +62,8 @@ public class TagCardView extends BaseCardView {
         int drawableResource =
                 cardAttrs.getInt(R.styleable.TagCardView_tag_icon, R.drawable.ic_tag);
 
-        mTagIcon = (ImageView) findViewById(R.id.image_icon);
-        mTagText = (TextView) findViewById(R.id.text_tag);
+        mTagIcon = findViewById(R.id.image_icon);
+        mTagText = findViewById(R.id.text_tag);
 
         setCardBackgroundColor(backgroundColor);
         setCardTextColor(textColor);

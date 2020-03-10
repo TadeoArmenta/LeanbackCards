@@ -1,13 +1,14 @@
 package com.hitherejoe.sample.ui.presenter;
 
 import android.content.Context;
-import android.support.v17.leanback.widget.Presenter;
-import android.support.v4.content.ContextCompat;
 import android.view.ViewGroup;
 
+import androidx.core.content.ContextCompat;
+import androidx.leanback.widget.Presenter;
+
+import com.hitherejoe.leanbackcards.IconCardView;
 import com.hitherejoe.sample.R;
 import com.hitherejoe.sample.ui.data.model.IconItem;
-import com.hitherejoe.leanbackcards.IconCardView;
 
 public class IconItemPresenter extends Presenter {
 

@@ -3,15 +3,16 @@ package com.hitherejoe.leanbackcards;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
-import android.support.annotation.ColorInt;
-import android.support.v17.leanback.widget.BaseCardView;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+
+import androidx.annotation.ColorInt;
+import androidx.core.content.ContextCompat;
+import androidx.leanback.widget.BaseCardView;
 
 public class LoadingCardView extends BaseCardView {
 
@@ -52,8 +53,8 @@ public class LoadingCardView extends BaseCardView {
         inflater.inflate(R.layout.view_loading_card, this);
         TypedArray cardAttrs = context.obtainStyledAttributes(styleResId, R.styleable.TagCardView);
 
-        mLoadingLayout = (RelativeLayout) findViewById(R.id.layout_loading);
-        mProgressBar = (ProgressBar) findViewById(R.id.progress_indicator);
+        mLoadingLayout = findViewById(R.id.layout_loading);
+        mProgressBar = findViewById(R.id.progress_indicator);
 
         int backgroundColor =
                 cardAttrs.getInt(R.styleable.LoadingCardView_loading_background_color,

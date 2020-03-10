@@ -1,14 +1,15 @@
 package com.hitherejoe.sample.ui.activity;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
 import android.widget.FrameLayout;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.hitherejoe.sample.R;
 import com.hitherejoe.sample.ui.fragment.MainFragment;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 
     FrameLayout mFragmentContainer;
 
@@ -19,11 +20,11 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mFragmentContainer = (FrameLayout) findViewById(R.id.frame_container);
+        mFragmentContainer = findViewById(R.id.frame_container);
 
         mBrowseFragment = new MainFragment();
 
-        getFragmentManager().beginTransaction()
+        getSupportFragmentManager().beginTransaction()
                 .replace(mFragmentContainer.getId(), mBrowseFragment).commit();
     }
 

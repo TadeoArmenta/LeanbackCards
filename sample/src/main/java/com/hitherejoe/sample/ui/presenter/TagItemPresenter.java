@@ -1,11 +1,12 @@
 package com.hitherejoe.sample.ui.presenter;
 
-import android.support.v17.leanback.widget.Presenter;
-import android.support.v4.content.ContextCompat;
 import android.view.ViewGroup;
 
-import com.hitherejoe.sample.R;
+import androidx.core.content.ContextCompat;
+import androidx.leanback.widget.Presenter;
+
 import com.hitherejoe.leanbackcards.TagCardView;
+import com.hitherejoe.sample.R;
 
 public class TagItemPresenter extends Presenter {
 

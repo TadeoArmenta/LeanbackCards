@@ -2,14 +2,15 @@ package com.hitherejoe.sample.ui.presenter;
 
 
 import android.content.Context;
-import android.support.v17.leanback.widget.HeaderItem;
-import android.support.v17.leanback.widget.ListRow;
-import android.support.v17.leanback.widget.Presenter;
-import android.support.v17.leanback.widget.RowHeaderPresenter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.leanback.widget.HeaderItem;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.RowHeaderPresenter;
 
 import com.hitherejoe.sample.R;
 
@@ -24,6 +25,7 @@ public class HeaderItemPresenter extends RowHeaderPresenter {
         LayoutInflater inflater = (LayoutInflater) viewGroup.getContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+        assert inflater != null;
         View view = inflater.inflate(R.layout.item_icon_header, null);
         return new ViewHolder(view);
     }
@@ -33,7 +35,7 @@ public class HeaderItemPresenter extends RowHeaderPresenter {
         HeaderItem headerItem = ((ListRow) o).getHeaderItem();
         View rootView = viewHolder.view;
         rootView.setAlpha(mUnselectedAlpha);
-        TextView label = (TextView) rootView.findViewById(R.id.header_label);
+        TextView label = rootView.findViewById(R.id.header_label);
         label.setText(headerItem.getName());
     }
 

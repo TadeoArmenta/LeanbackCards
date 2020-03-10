@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         lb:layout_viewType="main" />
 
-    <android.support.v17.leanback.widget.NonOverlappingFrameLayout
+    <androidx.leanback.widget.NonOverlappingLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         lb:layout_viewType="info">
@@ -41,12 +41,12 @@
                 android:layout_marginStart="@dimen/lb_basic_card_info_text_margin"
                 android:ellipsize="none"
                 android:fontFamily="sans-serif-condensed"
-                android:maxLines="1"
                 android:textColor="@color/lb_basic_card_content_text_color"
-                android:textSize="@dimen/lb_basic_card_content_text_size" />
+                android:textSize="@dimen/lb_basic_card_content_text_size"
+                android:singleLine="true" />
 
         </LinearLayout>
 
-    </android.support.v17.leanback.widget.NonOverlappingFrameLayout>
+    </androidx.leanback.widget.NonOverlappingLinearLayout>
 
 </merge>

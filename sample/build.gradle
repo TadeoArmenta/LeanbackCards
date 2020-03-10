@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId "com.hitherejoe.leanbackcards.sample"
         minSdkVersion 21
-        targetSdkVersion 23
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
     }
@@ -21,10 +21,10 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:recyclerview-v7:23.1.1'
-    compile 'com.android.support:leanback-v17:23.1.1'
-    compile project(':leanbackcards')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "androidx.leanback:leanback:1.0.0"
+    implementation project(':leanbackcards')
 
-    compile 'com.github.bumptech.glide:glide:3.6.1'
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
 }

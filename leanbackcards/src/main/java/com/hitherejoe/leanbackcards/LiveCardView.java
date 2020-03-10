@@ -2,9 +2,6 @@ package com.hitherejoe.leanbackcards;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.annotation.ColorInt;
-import android.support.v17.leanback.widget.BaseCardView;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -12,6 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.ColorInt;
+import androidx.core.content.ContextCompat;
+import androidx.leanback.widget.BaseCardView;
 
 import com.hitherejoe.leanbackcards.widget.PreviewCardView;
 
@@ -71,9 +72,9 @@ public class LiveCardView extends BaseCardView {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.view_live_card, this);
 
-        mPreviewCard = (PreviewCardView) view.findViewById(R.id.layout_preview_card);
-        mTitleView = (TextView) findViewById(R.id.title_text);
-        mContentView = (TextView) findViewById(R.id.content_text);
+        mPreviewCard = view.findViewById(R.id.layout_preview_card);
+        mTitleView = findViewById(R.id.title_text);
+        mContentView = findViewById(R.id.content_text);
 
         TypedArray cardAttrs =
                 getContext().obtainStyledAttributes(styleResId, R.styleable.LiveCardView);
