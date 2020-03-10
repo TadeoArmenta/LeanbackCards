@@ -1,5 +1,6 @@
 package com.hitherejoe.sample.ui.presenter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -8,6 +9,8 @@ import android.os.Build;
 import android.provider.Settings;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 
 import androidx.core.content.ContextCompat;
 import androidx.leanback.widget.Presenter;
@@ -18,12 +21,18 @@ import com.hitherejoe.sample.R;
 import com.hitherejoe.sample.ui.activity.MainActivity;
 import com.hitherejoe.sample.ui.data.model.Post;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+
+import okhttp3.Interceptor;
+import okhttp3.Request;
+import okhttp3.Response;
+
 
 public class LiveCardPresenter extends Presenter {
 
-    private static final int CARD_WIDTH = 300;
+    private static final int CARD_WIDTH = 210;
     private static final int CARD_HEIGHT = 300;
     private static int sSelectedBackgroundColor;
     private static int sDefaultBackgroundColor;
@@ -41,7 +50,7 @@ public class LiveCardPresenter extends Presenter {
         sSelectedBackgroundColor = ContextCompat.getColor(context, R.color.primary_dark);
         mDefaultCardImage = ContextCompat.getDrawable(context, R.drawable.ic_play);
 
-        final LiveCardView cardView = new LiveCardView(parent.getContext()) {
+        final LiveCardView cardView = new LiveCardView(mContext,null) {
             @Override
             public void setSelected(boolean selected) {
                 updateCardBackgroundColor(this, selected);
@@ -49,26 +58,54 @@ public class LiveCardPresenter extends Presenter {
             }
         };
 
-        cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cardView.stopVideo();
-            }
-        });
+        cardView.setOnClickListener(v -> cardView.stopVideo());
 
-        cardView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    cardView.startVideo();
-                } else {
-                    if (mContext instanceof MainActivity) {
-                        if (((MainActivity) mContext).isFragmentActive()) {
-                            cardView.stopVideo();
-                        }
-                    } else {
+        cardView.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                cardView.startVideo();
+                ScaleAnimation anim = new ScaleAnimation(
+                        1.0f,
+                        2.5f,
+                        1.0f,
+                        1.0f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.0f,
+                        Animation.RELATIVE_TO_SELF,
+                        1.0f);
+                anim.setDuration(135);
+                anim.setFillAfter(true);
+                v.startAnimation(anim);
+            } else {
+                if (mContext instanceof MainActivity) {
+                    if (((MainActivity) mContext).isFragmentActive()) {
                         cardView.stopVideo();
+                        ScaleAnimation anim = new ScaleAnimation(
+                                2.5f,
+                                1.0f,
+                                1.0f,
+                                1.0f,
+                                Animation.RELATIVE_TO_SELF,
+                                0.0f,
+                                Animation.RELATIVE_TO_SELF,
+                                1.0f);
+                        anim.setDuration(135);
+                        anim.setFillAfter(true);
+                        v.startAnimation(anim);
                     }
+                } else {
+                    cardView.stopVideo();
+                    ScaleAnimation anim = new ScaleAnimation(
+                            2.5f,
+                            1.0f,
+                            1.0f,
+                            1.0f,
+                            Animation.RELATIVE_TO_SELF,
+                            0.0f,
+                            Animation.RELATIVE_TO_SELF,
+                            1.0f);
+                    anim.setDuration(135);
+                    anim.setFillAfter(true);
+                    v.startAnimation(anim);
                 }
             }
         });
@@ -88,7 +125,8 @@ public class LiveCardPresenter extends Presenter {
     }
 
     @Override
-    public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item) {
+    @SuppressLint("HardwareIds")
+    public void onBindViewHolder(final Presenter.ViewHolder viewHolder, Object item) {
         if (item instanceof Post) {
             Post post = (Post) item;
 
@@ -96,12 +134,19 @@ public class LiveCardPresenter extends Presenter {
             cardView.setTitleText(post.description);
             cardView.setContentText(post.username);
             cardView.setMainContainerDimensions(CARD_WIDTH, CARD_HEIGHT);
-            int size = (int) (CARD_WIDTH * 1.25);
+            int size = (int) (CARD_HEIGHT * 1.25);
             cardView.setVideoViewSize(size, size);
-            Map<String, String> map = new HashMap<String, String>();
-            map.put("deviceid", Settings.Secure.getString(viewHolder.view.getContext().getContentResolver(), Settings.Secure.ANDROID_ID));
-            map.put("User-Agent",getUserAgent(viewHolder.view.getContext(),"elbrazodealbanil("+Settings.Secure.getString(viewHolder.view.getContext().getContentResolver(), Settings.Secure.ANDROID_ID)+")"));
-            cardView.setVideoUrl(post.videoUrl,map);
+            Interceptor i = chain -> {
+                Request original = chain.request();
+
+                Request request = original.newBuilder()
+                        .header("User-Agent", getUserAgent(viewHolder.view.getContext(),"elbrazodealbanil("+Settings.Secure.getString(viewHolder.view.getContext().getContentResolver(), Settings.Secure.ANDROID_ID)+")"))
+                        .header("deviceid", Settings.Secure.getString(viewHolder.view.getContext().getContentResolver(), Settings.Secure.ANDROID_ID))
+                        .method(original.method(), original.body())
+                        .build();
+                return chain.proceed(request);
+            };
+            cardView.setVideoUrl(post.videoUrl,i);
 
             Glide.with(cardView.getContext())
                     .load(post.thumbnail)
@@ -122,7 +167,7 @@ public class LiveCardPresenter extends Presenter {
         } catch (PackageManager.NameNotFoundException e) {
             versionName = "?";
         }
-        return applicationName + "/3.0.0-RC (Linux;Android " + Build.VERSION.RELEASE
+        return applicationName + "/2.4.0-RC (Linux;Android " + Build.VERSION.RELEASE
                 + ") ";
     }
 }

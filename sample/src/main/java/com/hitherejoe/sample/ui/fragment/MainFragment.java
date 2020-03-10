@@ -97,11 +97,16 @@ public class MainFragment extends BrowseSupportFragment {
         post.username = "hitherejoe";
         post.description = "Just a video!";
         post.thumbnail = R.drawable.hitherejoe;
-        post.videoUrl =
-                "https://live.bongotv.mx/live/fubo.amc/playlist.m3u8";
+        post.videoUrl = "https://live03.bongotv.mx/live/AAcoder27HD/playlist.m3u8";
         mVideoCardAdapter.addOption(post);
+        Post post2 = new Post();
+        post.username = "hitherejoe2";
+        post.description = "Just a video2!";
+        post.thumbnail = R.drawable.hitherejoe;
+        post.videoUrl = "https://live03.bongotv.mx/live/AAcoder27HD/playlist.m3u8";
+        mVideoCardAdapter.addOption(post2);
         HeaderItem gridLiveCardHeader =
-                new HeaderItem(mRowsAdapter.size(), getString(R.string.header_text_live_card));
+                new HeaderItem(mVideoCardAdapter.size(), getString(R.string.header_text_live_card));
         mRowsAdapter.add(new ListRow(gridLiveCardHeader, mVideoCardAdapter));
     }
 
